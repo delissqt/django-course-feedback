@@ -46,7 +46,7 @@ CSRF stands for cross site request forgery.
 It's about building requests that look like valid requests, but actually aren't.
 Django protects you against with malisious request that is called CSRF token. A token that prevents this attack pattern (manipulate and replace data in the request sent)
 
-## how does ir work?
+## how does it work?
 
 The idea basically, is that in our website and our web application which we're building, we add a dynamically generated token to our generated forms. 
 And that token has to be sent to gather with the POST request to our servers. 
@@ -68,3 +68,52 @@ And on every incoming requests, we can check whether such a valid token is part 
 
 By adding `{% csrf_token %}` in your Django template, Django will go ahead, generate this unique token and add it in that form.
 And then validate that token once your POST request arrives back on the server.
+
+# action property
+
+```
+<form action="/" method="POST">
+    {% csrf_token %}
+    <label for="username">Your name</label>
+    <input id="username" name="username" type="text">
+    <button>Send</button>
+</form>
+```
+
+This allows you to specify the path after your domain to which this request should be sent.
+If I set it to slash `/` nothing it will be that standard URL, that main domain URL to which it already is being sent.
+So you can change that URL to which the request is being sent.
+It's still a POST request but now also sent to different URL por example `action="/user-review"`
+
+
+# Request method POST
+
+```
+def review(request): # <--- REQUEST OBJECT
+    if request.method == 'POST':
+        entered_username = request.POST['username']
+
+    return render(request, "reviews/review.html")
+```
+
+`request` object has a method property, which tells us about the HTTP method which was used for this request. 
+In our case if it's a GET or a POST request. And we'll get this method identifier as a string.
+
+request.`method` gives us access to the method that was used for submitting tha data.
+
+request.`POST` gives us access to the data itself.
+To be precise `POST` will hold a dictionary where the keys are the **names** set on the inputs in the form and the values are the entered values.
+
+
+So here I can get access to a `username` key on that dictionary, because I have a input named `username` in my form (`name="username"`).
+And that will be that entered username.
+
+ ```
+ <form action="/" method="POST">
+    {% csrf_token %}
+    <label for="username">Your name</label>
+    <input id="username" name="username" type="text">  # <--- defined here name="username"
+    <button>Send</button>
+</form>
+ ```
+
