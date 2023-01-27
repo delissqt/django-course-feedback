@@ -117,3 +117,18 @@ And that will be that entered username.
 </form>
  ```
 
+---
+
+# Using the Django Form Class
+
+create a file called `forms.py` (this named file is only a common pattern to do so). And we are going to create a *class*. A *class* that defines the shape of our form, the different inputs we want and the validation rules for those inputs.
+
+And we'll then be able to automatically render that form in a template and to automatically let Django validate that form for us.
+
+```
+from django import forms
+
+# it's a kinf of a convention that it ends with "Form"
+class ReviewForm(forms.Form):
+    user_name = forms.CharField()
+```
