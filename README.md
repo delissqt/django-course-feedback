@@ -139,6 +139,10 @@ class ReviewForm(forms.Form):
 
 ###  Tips
 
+We cant find more information about this topic searching *django class based views* and in the offical django page select *Built-in class-based genereic views*. In here you will see that there actually are a lot of different viws you can extend from 
+[link](https://docs.djangoproject.com/en/4.1/topics/class-based-views/)
+
+
 Models class example:
 ```
 # models.py
