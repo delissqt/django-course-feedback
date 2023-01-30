@@ -132,3 +132,48 @@ from django import forms
 class ReviewForm(forms.Form):
     user_name = forms.CharField()
 ```
+
+---
+
+# Modelforms
+
+###  Tips
+
+Models class example:
+```
+# models.py
+
+class Review(models.Model):
+    user_name = models.CharField(max_length=100)
+    review_text = models.TextField()
+    rating = models.IntegerField()
+    owner_comment = models.TextField() # only for example
+```
+
+Adding items in Class Model Based Form, we can added in the list the items we wan display in the form
+```
+# forms.py
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ["user_name", "review_text", "rating"]
+```
+
+If we want add all items of the model we can do the next
+```
+# forms.py
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = '__all__'
+```
+
+Alternatively, if you know that you wanna render all fields except one maybe, you could set the `exclude` field and the list all the fields that should be excluded
+
+```
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        exclude = ["owner_commet"]
