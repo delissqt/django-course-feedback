@@ -167,7 +167,7 @@ If we want add all items of the model we can do the next
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = "__all__"
 ```
 
 Alternatively, if you know that you wanna render all fields except one maybe, you could set the `exclude` field and the list all the fields that should be excluded
