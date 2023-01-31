@@ -181,3 +181,42 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         exclude = ["owner_commet"]
+
+
+---
+
+# Template View
+
+TemplateView it's specifically focused on allowing you to build view classes that render templates.
+
+```
+# views.py
+# example usign TemplateView
+
+from django.views.generic.base import TemplateView
+
+class ThankyouView(TemplateView):
+    template_name = "reviews/thank_you.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["message"] = "This works"
+        return context
+
+    # the idea here is taht in this get_context_data method you should return the context that is exposed to the
+    # template
+```
+
+We can use this imported template view and inherit that instead of just view. When doing that you don't define a get method here anymore. Instead, inthat case here, we´re focused on returning a template. That's why we use this template view.
+
+```
+# views.py
+# example using View
+
+from django.views import View
+
+class ThankyouView(View):
+
+    def get(self, request)
+        return render(request, "reviews/thank_you.html") 
+```
