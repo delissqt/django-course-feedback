@@ -57,6 +57,8 @@ class ReviewDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         review_id =  kwargs["id"]
         selected_review = Review.objects.get(pk=review_id)
+        # selected_review = get_object_or_404(Review, id=review_id) # also works 
+        # selected_review = get_object_or_404(Review, pk=review_id) # also works
         context["review"] = selected_review
 
         return context
