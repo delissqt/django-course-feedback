@@ -220,3 +220,106 @@ class ThankyouView(View):
     def get(self, request)
         return render(request, "reviews/thank_you.html") 
 ```
+
+---
+
+# ListView
+
+
+```
+from django.views.generic import ListView
+```
+
+`ListView` is a more specialized template view. It's still all about rendering a template for a get request but it then also specifically for **fetching a list of data*based on some model*.
+
+```
+class ReviewListView(ListView):
+    template_name = "reviews/review_list.html"
+
+    # def get_context_data 
+    # def get_ordering 
+```
+| function | description |
+|----------|-------------|
+|`def get_context_data`| We can override context_data if we need to pass additional context to the template. |
+|`def get_ordering`| We can override get_ordering to control how the fetched data should be ordered. |
+|`def get_queryset`| We can override get_queryset which allows us to change how the data is fetched, for example If you want to get a filtered list or anything like this. |
+
+
+When we use Listview, Django will fecth all those reviews (objects) but it will expose them in my template as `object_list`
+
+
+```
+#views.py
+from django.views.generic import ListView
+from .models import Review
+
+class ReviewListView(ListView):
+    template_name = "reviews/review_list.html"
+    model = Review
+    # get the data as object_list
+```
+
+ reviews_list.html
+```
+{% extends "reviews/base.html" %}
+
+
+{% block title %}All reviews{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for review in object_list %}
+            <li>
+                {{ review.user_name }} - Rating: {{ review.rating }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+```
+
+Is possible to configure how this list you works. For exmaple We can change *objects_list* is named by another one word.
+You can add a context_object_name property which allows you to define the name of the data which you will have when it's exposed yo your template.
+So if I set this to reviews here, I can use that fetch list of data under the name reviews in the template.
+
+views.py
+```
+class ReviewListView(ListView):
+    template_name = "reviews/review_list.html"
+    model = Review
+    context_object_name = "reviews"
+```
+
+ review_list.html
+```
+{% extends "reviews/base.html" %}
+
+
+{% block title %}All reviews{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for review in reviews %}
+            <li>
+                {{ review.user_name }} - Rating: {{ review.rating }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+```
+
+We can filtering data for fetching it to the template
+
+```
+class ReviewListView(ListView):
+    template_name = "reviews/review_list.html"
+    model = Review
+    context_object_name = "reviews"
+
+    def get_queryset(self):
+        base_query = super().get_queryset()
+        data = base_query.filter(rating__gt=4)
+        return data
+```
