@@ -323,3 +323,45 @@ class ReviewListView(ListView):
         data = base_query.filter(rating__gt=4)
         return data
 ```
+
+---
+
+# DetailView
+
+django takes automatically model name and anc hange to lower case, for expose in template, but also wroks with *object* word
+views.py
+```
+class ReviewDetailView(DetailView):
+    template_name = "reviews/review_detail.html"
+    model = Review
+    # 
+```
+
+imporant change the url by <pk>
+urls.py
+```
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    ...
+    path("reviews/<int:pk>", views.ReviewDetailView.as_view()),
+]
+```
+
+review_detail.html
+```
+{% extends "reviews/review.html" %}
+
+
+{% block title %}Review Detail{% endblock %}
+
+{% block content %}
+
+    <h2>{{ object.user_name }}</h2>
+    <p>Rating: {{ review.rating }}</p>
+    <p>{{ review.review_text }}</p>
+
+{% endblock %}
+```
