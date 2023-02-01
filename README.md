@@ -365,3 +365,45 @@ review_detail.html
 
 {% endblock %}
 ```
+
+---
+ # FormView
+
+ without use FormView
+
+ ```
+ class ReviewView(View):
+
+    def get(self, request):
+        form = ReviewForm()
+
+        return render(request, "reviews/review.html", {
+        "form": form
+        })
+
+    def post(self, request):
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/thank-you")
+        
+        return render(request, "reviews/review.html", {
+        "form": form
+        })
+ ```
+
+ usign 
+
+ ```
+ class ReviewView(FormView):
+    # tell what form should use
+    form_class = ReviewForm
+    template_name = "reviews/review.html"
+
+    success_url = "/thank-you"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+ ```
