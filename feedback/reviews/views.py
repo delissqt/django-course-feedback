@@ -3,25 +3,17 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic.base import TemplateView #TemplateView it's specifically focused on allowing you to build view classes that render templates.
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import ReviewForm
 from .models import Review
 
 # Create your views here.
-class ReviewView(FormView):
-    form_class = ReviewForm
+class ReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm # fields = "__all__"
     template_name = "reviews/review.html"
-
     success_url = "/thank-you"
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-
-def thank_you(request):
-    return render(request, "reviews/thank_you.html")
 
 
 class ThankyouView(TemplateView):

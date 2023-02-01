@@ -407,3 +407,53 @@ review_detail.html
         form.save()
         return super().form_valid(form)
  ```
+
+ ---
+
+ # CreateView
+
+with CreateView
+ ```
+ class ReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm # fields = "__all__"
+    template_name = "reviews/review.html"
+    success_url = "/thank-you"
+ ```
+
+ without CreateView
+
+```
+class ReviewView(FormView):
+    form_class = ReviewForm
+    template_name = "reviews/review.html"
+
+    success_url = "/thank-you"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+```
+
+---
+ # TemplateView
+
+with TemplateView
+
+```
+class ThankyouView(TemplateView):
+    template_name = "reviews/thank_you.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["message"] = "This works"
+        return context
+```
+
+without TemplateView
+
+```
+def thank_you(request):
+    return render(request, "reviews/thank_you.html")
+```
