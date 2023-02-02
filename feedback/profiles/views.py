@@ -4,6 +4,12 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
+def store_file(file):
+    with open("temp/image.jpg", "wb+") as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+
+
 class CreateProfileView(View):
     def get(self, request):
         return render(request, "profiles/create_profile.html")
@@ -11,5 +17,5 @@ class CreateProfileView(View):
     
     def post(self, request):
         #request.FILES["image"]
-        print("FILE---->", request.FILES["image"])
+        store_file(request.FILES["image"])
         return HttpResponseRedirect("/profiles")
