@@ -213,6 +213,7 @@ We can use this imported template view and inherit that instead of just view. Wh
 # views.py
 # example using View
 
+```
 from django.views import View
 
 class ThankyouView(View):
@@ -456,4 +457,41 @@ without TemplateView
 ```
 def thank_you(request):
     return render(request, "reviews/thank_you.html")
+```
+
+---
+
+# Using Models for File Storage
+
+In this models, `FileField` wants a file, but the interesting thing now is that this file will not be stored in a database because  **it is considered a bad practice to store files in the database** It bloats the database, makes it slow, and the database, makes it slow. The database simply is no file storage. Instead files shuld be stored on hard drives.
+
+```
+# models.py
+
+class UserProfile(models.Model):
+    image = models.FileField(upload_to="data")
+```
+`FileField` will do under the hood once we save a Model with a file, it is will take that file and move it somewhere on our hard drive, on our disc and only dtore the path to that file in the Model in the database.
+
+So, will tell Django where our files should be stored. 
+
+```
+settings.py
+
+
+MEDIA_ROOT = BASE_DIR / "uploads"
+```
+
+
+After saved a image we can see the path storage in the data base , inside python shell
+
+````
+from profiles.models import UserProfile
+UserProfile.objects.all()
+
+$ <QuerySet [<UserProfile: UserProfile object (1)>, <UserProfile: UserProfile object (2)>]>
+
+UserProfile.objects.all()[0].image.path
+
+$ 'C:\\Users\\Forest\\Desktop\\Proyectos\\ProyectosInternos\\django-course-feedback\\feedback\\uploads\\data\\leaf_kCbSH1X.jpg'
 ```
