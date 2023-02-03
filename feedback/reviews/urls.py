@@ -8,4 +8,5 @@ urlpatterns = [
     path("thank-you", views.ThankyouView.as_view()),
     path("reviews", views.ReviewListView.as_view()),
     path("reviews/<int:pk>", views.ReviewDetailView.as_view()),
+    path("reviews/favorite"),
 ]

@@ -6,5 +6,8 @@
     <h1>{{ review.user_name }}</h1>
     <p>Rating: {{ review.rating }}</p>
     <p>{{ review.review_text }}</p>
-    <button>Favorite</button>
+    <form action="/reviews/favorite" method="POST">
+        <input type="hidden" name="review_id" value="{{ review.id }}">
+        <button>Favorite</button>
+    </form>
 {% endblock %}
