@@ -495,3 +495,21 @@ UserProfile.objects.all()[0].image.path
 
 $ 'C:\\Users\\Forest\\Desktop\\Proyectos\\ProyectosInternos\\django-course-feedback\\feedback\\uploads\\data\\leaf_kCbSH1X.jpg'
 ```
+
+---
+
+#Imagefield
+
+In order to user Imagefiled is necessary install `Pyllow`
+
+```
+# models.py
+class UserProfile(models.Model):
+    image = models.ImageField(upload_to="data")
+```
+
+```
+# forms.py
+class ProfileForm(forms.Form):
+    user_image = forms.ImageField()
+```
