@@ -554,3 +554,33 @@ class CreateProfileView(View):
         })
 
 ```
+
+---
+
+# Session
+
+|Session|
+|-------|
+|A "ongoing connection" between a client (browser) and server|
+|Data stored in a session presists as long as the sessions is active|
+
+```
+ _________________                                                 _____________________
+|           ______|________                             ___________|______             |
+|          | Cookie with  |                             | Session data + |             |
+|  Client  | Session ID   |  <----------------------->  | identifier     |   Server    |
+|          |______________|                             |________________|             | 
+|_________________|                                            |    |__________________|
+                                                               |
+                                                               \/
+                                                ____________________________
+                                                | Stored in sesson storage, |
+                                                | typically a DB            |
+                                                |___________________________|
+
+```
+
+A session is a long-term relation between client and server, but it can be cleared and deleted and reset.
+It´s not forever, but it is long living and we as a developer will be able to decide how long it will live.
+
+Sessions are about storing data and information
