@@ -485,7 +485,7 @@ MEDIA_ROOT = BASE_DIR / "uploads"
 
 After saved a image we can see the path storage in the data base , inside python shell
 
-````
+```
 from profiles.models import UserProfile
 UserProfile.objects.all()
 
